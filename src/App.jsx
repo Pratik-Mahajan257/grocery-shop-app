@@ -1,10 +1,12 @@
 import React from 'react'
+import Header from './components/Header'
+import Items from './components/Items'
 
 const App = () => {
   return (
-   <div className='bg-red-500 '>
-HELLo
-
+   <div className=' lg:my-10 lg:mx-40 m-5 '>
+<Header />
+<Items />
    </div>
     
   )
