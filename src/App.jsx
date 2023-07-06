@@ -1,12 +1,14 @@
 import React from 'react'
 import Header from './components/Header'
-import Items from './components/Items'
+import ItemsCategory from './components/ItemsCategory'
+// import ItemsList from './components/ItemsList'
 
 const App = () => {
   return (
-   <div className=' lg:my-10 lg:mx-40 m-5 '>
+   <div className=' lg:my-10 lg:mx-40 m-3 '>
 <Header />
-<Items />
+<ItemsCategory />
+{/* <ItemsList />    */}
    </div>
     
   )
