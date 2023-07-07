@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { AiFillHeart, AiOutlineShoppingCart, AiOutlineSearch } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineShoppingCart, AiOutlineSearch, AiOutlineClose } from 'react-icons/ai';
 import Avatar from '../assets/avatar.png';
 
-const Header = ({ setSearchQuery }) => {
+const Header = ({ setSearchQuery }) => { // Add setSearchQuery prop
   const [searchInput, setSearchInput] = useState('');
 
   const handleSearch = () => {
     setSearchQuery(searchInput);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setSearchInput(''); // Clear the search input
   };
 
   return (
@@ -20,6 +25,11 @@ const Header = ({ setSearchQuery }) => {
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
+        {searchInput && ( // Render clear search button only if there is a search input
+          <button className='pr-4 cursor-pointer' onClick={handleClearSearch}>
+            <AiOutlineClose className='h-5 w-5' />
+          </button>
+        )}
         <button className='pr-4 cursor-pointer' onClick={handleSearch}>
           <AiOutlineSearch className='h-5 w-5' />
         </button>

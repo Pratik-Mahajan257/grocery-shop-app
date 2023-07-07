@@ -9,7 +9,7 @@ const App = () => {
   return (
    <div className=' lg:my-10 lg:mx-40 m-3 '>
 <Header setSearchQuery={setSearchQuery} />
-<ItemsCategory searchQuery={searchQuery} />
+<ItemsCategory searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
    </div>
     
