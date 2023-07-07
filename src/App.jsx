@@ -1,14 +1,16 @@
-import React from 'react'
+import { useState } from 'react'
+
 import Header from './components/Header'
 import ItemsCategory from './components/ItemsCategory'
-// import ItemsList from './components/ItemsList'
+
 
 const App = () => {
+  const [searchQuery, setSearchQuery] = useState('');
   return (
    <div className=' lg:my-10 lg:mx-40 m-3 '>
-<Header />
-<ItemsCategory />
-{/* <ItemsList />    */}
+<Header setSearchQuery={setSearchQuery} />
+<ItemsCategory searchQuery={searchQuery} />
+
    </div>
     
   )
