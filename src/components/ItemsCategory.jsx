@@ -59,7 +59,7 @@ const ItemsCategory = ({ searchQuery }) => {
         <h1 className='font-bold lg:text-3xl text-2xl'>Trending Items</h1>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5'>
           {filteredItems.map(item => (
-            <div key={item.id} className='bg-white p-5 sm:h-[150px] sm:w-[300px]  relative h-60 lg:w-[500px] lg:h-[250px] border border-gray-200 flex gap-x-10 rounded-2xl shadow-lg'>
+            <div key={item.id} className='bg-white p-5   relative h-60 lg:w-[500px] lg:h-[250px] border border-gray-200 flex gap-x-10 rounded-2xl shadow-lg'>
               <div className='absolute h-[150px] w-[150px] top-16'>
                 <img
                   src={item.img}
