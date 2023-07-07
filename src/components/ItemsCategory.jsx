@@ -59,7 +59,7 @@ const ItemsCategory = ({ searchQuery }) => {
         <h1 className='font-bold lg:text-3xl text-2xl'>Trending Items</h1>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5'>
           {filteredItems.map(item => (
-            <div key={item.id} className='bg-white p-5 relative h-60 lg:w-[500px] lg:h-[250px] border border-gray-200 flex gap-x-10 rounded-2xl shadow-lg'>
+            <div key={item.id} className='bg-white p-5 sm:h-[150px] sm:w-[300px]  relative h-60 lg:w-[500px] lg:h-[250px] border border-gray-200 flex gap-x-10 rounded-2xl shadow-lg'>
               <div className='absolute h-[150px] w-[150px] top-16'>
                 <img
                   src={item.img}
@@ -70,7 +70,7 @@ const ItemsCategory = ({ searchQuery }) => {
               <div className='flex flex-col absolute right-7 w-1/2 h-full'>
                 <div className='flex flex-col'>
                   <h2 className='font-bold text-lg'>{item.name}</h2>
-                  <p className='text-sm mb-5'>{truncateText(item.description, 80)}</p>
+                  <p className='text-sm  mt-5  mb-5'>{truncateText(item.description, 80)}</p>
                   {item.available >= 10 ? (
                     <p className='bg-green-500 shadow-md shadow-green-400 w-fit py-1 px-4 absolute bottom-24 text-white font-semibold text-sm rounded-full'>Available</p>
                   ) : (
