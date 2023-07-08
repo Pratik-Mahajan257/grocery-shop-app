@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { AiFillHeart, AiOutlineShoppingCart, AiOutlineSearch, AiOutlineClose } from 'react-icons/ai';
 import Avatar from '../assets/avatar.png';
+import { Link } from 'react-router-dom';
 
-const Header = ({ setSearchQuery }) => { // Add setSearchQuery prop
+const Header = ({ setSearchQuery, cartItems }) => {
   const [searchInput, setSearchInput] = useState('');
 
   const handleSearch = () => {
@@ -11,7 +12,7 @@ const Header = ({ setSearchQuery }) => { // Add setSearchQuery prop
 
   const handleClearSearch = () => {
     setSearchQuery('');
-    setSearchInput(''); // Clear the search input
+    setSearchInput('');
   };
 
   return (
@@ -25,7 +26,7 @@ const Header = ({ setSearchQuery }) => { // Add setSearchQuery prop
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
-        {searchInput && ( // Render clear search button only if there is a search input
+        {searchInput && (
           <button className='pr-4 cursor-pointer' onClick={handleClearSearch}>
             <AiOutlineClose className='h-5 w-5' />
           </button>
@@ -45,9 +46,11 @@ const Header = ({ setSearchQuery }) => { // Add setSearchQuery prop
           <img src={Avatar} alt="/" className=' mt-2 h-16 object-cover w-full   ' />
         </p>
         <p className='flex items-center h-14'>
-          <AiOutlineShoppingCart className='h-10 w-10' />
+          <Link to='/checkout'>
+            <AiOutlineShoppingCart className='h-10 w-10' />
+          </Link>
           <span className='bg-blue-500 rounded-full mb-8 lg:mb-12 flex items-center justify-center lg:h-5 lg:w-5 h-4 w-4 text-[10px]'>
-            0
+            {cartItems.length}
           </span>
         </p>
       </div>

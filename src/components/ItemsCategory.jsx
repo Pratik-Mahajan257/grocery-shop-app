@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai';
+import Header from './Header';
 
-const ItemsCategory = ({ searchQuery, setSearchQuery }) => {
+const ItemsCategory = ({ searchQuery, setSearchQuery, cartItems, setCartItems }) => {
   const itemList = ['All Items', 'Drinks', 'Fruit', 'Bakery'];
   const [selectedCategory, setSelectedCategory] = useState('All Items');
   const [items, setItems] = useState([]);
@@ -37,17 +38,39 @@ const ItemsCategory = ({ searchQuery, setSearchQuery }) => {
     return text;
   };
 
- const handleCategoryClick = (category) => {
+  const handleCategoryClick = (category) => {
     if (selectedCategory === category) {
       setFilteredItems(items);
     } else {
       setSelectedCategory(category);
     }
-    setSearchQuery(''); // Clear the search query
+    setSearchQuery('');
+  };
+
+  const handleAddToCart = (item) => {
+    const existingItem = cartItems.find(cartItem => cartItem.id === item.id);
+    if (existingItem) {
+      const updatedCartItems = cartItems.map(cartItem => {
+        if (cartItem.id === item.id) {
+          return { ...cartItem, quantity: cartItem.quantity + 1 };
+        }
+        return cartItem;
+      });
+      setCartItems(updatedCartItems);
+    } else {
+      const newCartItem = { ...item, quantity: 1 };
+      setCartItems([...cartItems, newCartItem]);
+    }
+  };
+
+  const handleRemoveFromCart = (item) => {
+    const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== item.id);
+    setCartItems(updatedCartItems);
   };
 
   return (
     <div>
+     <Header setSearchQuery={setSearchQuery} cartItems={cartItems}  />
       <div className='lg:mt-10 mt-3 flex gap-x-5 items-center'>
         {itemList.map((item, index) => (
           <div
@@ -92,7 +115,18 @@ const ItemsCategory = ({ searchQuery, setSearchQuery }) => {
                   <div className='absolute bottom-10 flex w-full items-center'>
                     <p className='font-bold text-lg'>{item.price}</p>
                     <p className='absolute right-2'><AiOutlineHeart className='h-7 w-7 text-gray-400 cursor-pointer' /></p>
-                    <p className='absolute right-14'><AiOutlineShoppingCart className='h-7 w-7 text-gray-400 cursor-pointer' /></p>
+                    <p className='absolute right-14'>
+                      <AiOutlineShoppingCart
+                        className={`h-7 w-7 text-gray-400 cursor-pointer ${cartItems.some(cartItem => cartItem.id === item.id) ? 'text-blue-500' : ''}`}
+                        onClick={() =>{
+    if (cartItems.some(cartItem => cartItem.id === item.id)) {
+      handleRemoveFromCart(item);
+    } else {
+      handleAddToCart(item);
+    }
+  }}
+                      />
+                    </p>
                   </div>
                 </div>
               </div>
@@ -102,6 +136,7 @@ const ItemsCategory = ({ searchQuery, setSearchQuery }) => {
           )}
         </div>
       </div>
+      
     </div>
   );
 };

@@ -1,15 +1,22 @@
 import { useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
 
-import Header from './components/Header'
-import ItemsCategory from './components/ItemsCategory'
-
+import Checkout from './components/Checkout'
+import ItemsCategory from './components/ItemsCategory';
 
 const App = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+const [cartItems, setCartItems] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
   return (
    <div className=' lg:my-10 lg:mx-40 m-3 '>
-<Header setSearchQuery={setSearchQuery} />
-<ItemsCategory searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
+   <Routes>
+   
+      <Route path='/' element={<ItemsCategory searchQuery={searchQuery} setSearchQuery={setSearchQuery} cartItems={cartItems} setCartItems={setCartItems} /> } />
+      <Route path='/checkout' element={<Checkout cartItems={cartItems} setCartItems={setCartItems}  />} />
+
+   </Routes>
+
 
    </div>
     
