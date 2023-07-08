@@ -34,38 +34,45 @@ const Checkout = ({ cartItems, setCartItems }) => {
     }
   };
 
-  const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => {
-      return total + parseFloat(item.price) * item.quantity;
-    }, 0);
-  };
+const calculateSubtotal = () => {
+  return cartItems.reduce((total, item) => {
+    const itemPrice = parseFloat(item.price.replace(/[^\d.-]/g, '')); // Remove non-numeric characters from price
+    return total + itemPrice * item.quantity;
+  }, 0).toFixed(2);
+};
 
-  const calculateDiscount = () => {
-    let discount = 0;
+const calculateDiscount = () => {
+  let discount = 0;
 
-    // Offer 1: Buy 6 cans of Coca-Cola and get one free
-    const cokeItem = cartItems.find((item) => item.name === 'Coca-Cola');
-    if (cokeItem) {
-      const cokeItemCount = cokeItem.quantity;
-      const cokeOfferCount = Math.floor(cokeItemCount / 6);
-      discount += cokeOfferCount * parseFloat(cokeItem.price);
-    }
+  // Offer 1: Buy 6 cans of Coca-Cola and get one free
+  const cokeItem = cartItems.find((item) => item.name === 'Coca-Cola');
+  if (cokeItem) {
+    const cokeItemCount = cokeItem.quantity;
+    const cokeOfferCount = Math.floor(cokeItemCount / 6);
+    const cokeItemPrice = parseFloat(cokeItem.price.replace(/[^\d.-]/g, '')); // Remove non-numeric characters from price
+    discount += cokeOfferCount * cokeItemPrice;
+  }
 
-    // Offer 2: Buy 3 croissants and get a free coffee
-    const croissantItem = cartItems.find((item) => item.name === 'Croissant');
-    const coffeeItem = cartItems.find((item) => item.name === 'Coffee');
-    if (croissantItem && coffeeItem) {
-      const croissantCount = croissantItem.quantity;
-      const coffeeOfferCount = Math.floor(croissantCount / 3);
-      discount += coffeeOfferCount * parseFloat(coffeeItem.price);
-    }
+  // Offer 2: Buy 3 croissants and get a free coffee
+  const croissantItem = cartItems.find((item) => item.name === 'Croissant');
+  const coffeeItem = cartItems.find((item) => item.name === 'Coffee');
+  if (croissantItem && coffeeItem) {
+    const croissantCount = croissantItem.quantity;
+    const coffeeOfferCount = Math.floor(croissantCount / 3);
+    const coffeeItemPrice = parseFloat(coffeeItem.price.replace(/[^\d.-]/g, '')); // Remove non-numeric characters from price
+    discount += coffeeOfferCount * coffeeItemPrice;
+  }
 
-    return discount;
-  };
+  return discount.toFixed(2);
+};
 
-  const calculateTotal = () => {
-    return calculateSubtotal() - calculateDiscount();
-  };
+const calculateTotal = () => {
+  const subtotal = calculateSubtotal();
+  const discount = calculateDiscount();
+  return (subtotal - discount).toFixed(2);
+};
+
+
 
   return (
     <div>
