@@ -23,7 +23,7 @@ const handleIncreaseQuantity = (item) => {
 
     // Check if the added item is a croissant
     if (item.name === 'Croissants') {
-      const croissantCount = item.quantity;
+      const croissantCount = item.quantity ;
       const coffeeItem = cartItems.find((item) => item.name === 'Coffee');
 
       // Check if the croissant count is a multiple of 3
