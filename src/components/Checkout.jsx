@@ -10,17 +10,42 @@ const Checkout = ({ cartItems, setCartItems }) => {
     setCartItems(updatedCartItems);
   };
 
-  const handleIncreaseQuantity = (item) => {
-    if (item.quantity < item.available) {
-      const updatedCartItems = cartItems.map((cartItem) => {
-        if (cartItem.id === item.id) {
-          return { ...cartItem, quantity: cartItem.quantity + 1 };
+const handleIncreaseQuantity = (item) => {
+  if (item.quantity < item.available) {
+    const updatedCartItems = cartItems.map((cartItem) => {
+      if (cartItem.id === item.id) {
+        return { ...cartItem, quantity: cartItem.quantity + 1 };
+      }
+      return cartItem;
+    });
+
+    setCartItems(updatedCartItems);
+
+    // Check if the added item is a croissant
+    if (item.name === 'Croissants') {
+      const croissantCount = item.quantity;
+      const coffeeItem = cartItems.find((item) => item.name === 'Coffee');
+
+      // Check if the croissant count is a multiple of 3
+      if (croissantCount % 3 === 0) {
+        if (!coffeeItem) {
+          const updatedCoffeeItem = {
+            id: 'coffee-item-id', // Assign a unique ID for the coffee item
+            name: 'Coffee',
+            price: '£2.99', // Replace with the actual price of coffee
+            quantity: 1,
+            img: 'https://py-shopping-cart.s3.eu-west-2.amazonaws.com/coffee.jpeg',
+            available: 10, // Replace with the actual path to the coffee image
+          };
+          setCartItems([...cartItems, updatedCoffeeItem]);
         }
-        return cartItem;
-      });
-      setCartItems(updatedCartItems);
+      }
     }
-  };
+  }
+};
+
+
+
 
   const handleDecreaseQuantity = (item) => {
     if (item.quantity > 1) {
@@ -36,7 +61,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
 
 const calculateSubtotal = () => {
   return cartItems.reduce((total, item) => {
-    const itemPrice = parseFloat(item.price.replace(/[^\d.-]/g, '')); // Remove non-numeric characters from price
+    const itemPrice = parseFloat(item.price.replace(/[^\d.-]/g, '')); 
     return total + itemPrice * item.quantity;
   }, 0).toFixed(2);
 };
@@ -49,22 +74,24 @@ const calculateDiscount = () => {
   if (cokeItem) {
     const cokeItemCount = cokeItem.quantity;
     const cokeOfferCount = Math.floor(cokeItemCount / 6);
-    const cokeItemPrice = parseFloat(cokeItem.price.replace(/[^\d.-]/g, '')); // Remove non-numeric characters from price
+    const cokeItemPrice = parseFloat(cokeItem.price.replace(/[^\d.-]/g, ''));
     discount += cokeOfferCount * cokeItemPrice;
   }
 
-  // Offer 2: Buy 3 croissants and get a free coffee
-  const croissantItem = cartItems.find((item) => item.name === 'Croissant');
+  // Offer 2: Buy 3 croissants and get a discount on coffee
+  const croissantItem = cartItems.find((item) => item.name === 'Croissants');
   const coffeeItem = cartItems.find((item) => item.name === 'Coffee');
   if (croissantItem && coffeeItem) {
     const croissantCount = croissantItem.quantity;
-    const coffeeOfferCount = Math.floor(croissantCount / 3);
-    const coffeeItemPrice = parseFloat(coffeeItem.price.replace(/[^\d.-]/g, '')); // Remove non-numeric characters from price
-    discount += coffeeOfferCount * coffeeItemPrice;
+    const coffeeQuantity = coffeeItem.quantity;
+    if (croissantCount >= 3 && coffeeQuantity >= 1) {
+      discount += 2.99;
+    }
   }
 
   return discount.toFixed(2);
 };
+
 
 const calculateTotal = () => {
   const subtotal = calculateSubtotal();
@@ -102,7 +129,7 @@ const calculateTotal = () => {
                 {item.available >= 10 ? (
                   <p></p>
                 ) : (
-                  <p className='bg-orange-400 shadow-md shadow-orange-300 w-fit px-2 flex justify-center items-center   absolute left-1/3 bottom-5 text-white font-semibold text-[10px] rounded-full'>
+                  <p className='bg-orange-400 shadow-md shadow-orange-300 w-fit px-2 flex justify-center items-center lg:relative lg:ml-52 lg:mt-16  absolute left-1/3 bottom-5 text-white font-semibold text-[10px] rounded-full'>
                     {item.available > 0 ? `Only ${item.available} left` : 'Not Available'}
                   </p>
                 )}
@@ -129,6 +156,7 @@ const calculateTotal = () => {
                 </button>
               </div>
             ))}
+
             <div className='flex flex-col justify-center relative items-center'>
               <div className='border-t-2 border-gray-300 py-8 w-full flex justify-center items-center '>
                 <p className='font-bold absolute left-1/3'>Subtotal </p>

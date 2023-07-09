@@ -43,7 +43,7 @@ const Header = ({ setSearchQuery, cartItems }) => {
           </span>
         </p>
         <p className='flex w-8 lg:w-12'>
-          <img src={Avatar} alt="/" className=' mt-2 h-16 object-cover w-full   ' />
+          <img src={Avatar} alt="/" className=' mt-2 h-16 object-cover w-full ' />
         </p>
         <p className='flex items-center h-14'>
           <Link to='/checkout'>
