@@ -27,15 +27,15 @@ const handleIncreaseQuantity = (item) => {
       const coffeeItem = cartItems.find((item) => item.name === 'Coffee');
 
       // Check if the croissant count is a multiple of 3
-      if (croissantCount % 3 === 0) {
+      if (croissantCount === 3) {
         if (!coffeeItem) {
           const updatedCoffeeItem = {
-            id: 'coffee-item-id', // Assign a unique ID for the coffee item
+            id: 'coffee-item-id', 
             name: 'Coffee',
-            price: '£2.99', // Replace with the actual price of coffee
+            price: '£2.99', 
             quantity: 1,
             img: 'https://py-shopping-cart.s3.eu-west-2.amazonaws.com/coffee.jpeg',
-            available: 10, // Replace with the actual path to the coffee image
+            available: 10, 
           };
           setCartItems([...cartItems, updatedCoffeeItem]);
         }
